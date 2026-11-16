@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2874f0">
+<title>Dhanorkar Mobile Shop | Bhokar</title>
+<style>
+:root{--blue:#2874f0;--yellow:#ffe500;--ink:#172337;--muted:#68778d;--bg:#f1f3f6;--white:#fff;--green:#168b45}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}
+.top{background:var(--blue);color:#fff;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px #0002}
+.topinner{max-width:1200px;margin:auto;padding:12px 16px;display:flex;align-items:center;gap:18px}
+.brand{min-width:190px;color:#fff;text-decoration:none;font-weight:800;font-size:21px;line-height:1.05}.brand small{display:block;font-size:11px;font-style:italic;color:var(--yellow);font-weight:600;margin-top:4px}
+.search{flex:1;display:flex;background:#fff;border-radius:3px;overflow:hidden}.search input{width:100%;border:0;padding:12px;outline:0}.search button{background:#fff;color:var(--blue);padding:0 14px;font-size:19px}
+.topbtn{background:transparent;color:white;font-weight:700;padding:10px 8px;white-space:nowrap}.cartbtn{background:var(--yellow);color:#111;padding:10px 15px;border-radius:3px;font-weight:800}
+.hero{max-width:1200px;margin:16px auto 12px;padding:0 12px}.heroBox{background:linear-gradient(110deg,#123b78,#2874f0 65%,#4ea4ff);border-radius:8px;color:#fff;padding:28px 30px;display:flex;justify-content:space-between;align-items:center;min-height:160px;overflow:hidden}.hero h1{font-size:clamp(24px,4vw,38px);margin:0 0 8px}.hero p{margin:0;color:#e8f1ff}.heroTag{background:var(--yellow);color:#111;padding:12px 18px;border-radius:5px;font-weight:900;transform:rotate(-3deg)}
+.categories{max-width:1200px;margin:12px auto;background:#fff;padding:16px;display:flex;gap:12px;justify-content:space-around;flex-wrap:wrap;border-radius:5px}.cat{background:#f4f8ff;color:#174b99;padding:10px 18px;border-radius:24px;font-weight:700}
+.wrap{max-width:1200px;margin:14px auto;padding:0 12px}.sectionhead{display:flex;align-items:center;justify-content:space-between;background:#fff;padding:16px;border-bottom:1px solid #eee}.sectionhead h2{margin:0;font-size:21px}.count{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}
+.card{background:#fff;border-radius:5px;padding:14px;min-width:0;box-shadow:0 1px 3px #0000000c;transition:.15s}.card:hover{box-shadow:0 5px 18px #0002;transform:translateY(-2px)}
+.photo{height:175px;display:flex;align-items:center;justify-content:center;background:#fff;overflow:hidden;margin-bottom:10px}.photo img{width:100%;height:100%;object-fit:contain}.placeholder{font-size:65px;color:#b8c5d8}
+.condition{display:inline-block;background:#e7f7ed;color:#13763b;font-size:11px;font-weight:800;padding:4px 7px;border-radius:3px}.condition.used{background:#fff3d6;color:#8a5a00}
+.card h3{font-size:15px;line-height:1.35;margin:9px 0 6px;min-height:40px}.spec{font-size:12px;color:var(--muted);margin:0 0 8px}.price{font-size:20px;font-weight:800;margin:6px 0}.oldprice{font-size:12px;color:#8993a2;text-decoration:line-through;margin-left:6px}.stock{font-size:12px;color:var(--green);margin:6px 0}.stock.out{color:#c33}
+.actions{display:flex;gap:7px;margin-top:10px}.actions button{flex:1;padding:10px 5px;border-radius:3px;font-size:12px;font-weight:800}.buy{background:var(--yellow);color:#111}.wa{background:#16a34a;color:#fff}
+.empty{grid-column:1/-1;text-align:center;background:#fff;padding:45px;color:var(--muted)}
+footer{background:#172337;color:#dce5f2;margin-top:30px;padding:28px 16px}.footinner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footinner h3{color:#fff;margin-top:0}.footinner p{margin:6px 0;font-size:14px}
+.overlay{display:none;position:fixed;inset:0;background:#0008;z-index:30;align-items:center;justify-content:center;padding:14px}.overlay.show{display:flex}.modal{background:#fff;width:min(560px,100%);max-height:92vh;overflow:auto;border-radius:8px;padding:20px}.modalhead{display:flex;justify-content:space-between;align-items:center}.modalhead h2{margin:0}.close{font-size:25px;background:none;color:#555}.field{margin:12px 0}.field label{display:block;font-weight:700;font-size:13px;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;border:1px solid #ccd3df;border-radius:4px;padding:11px;background:white}.primary{background:var(--blue);color:#fff;padding:12px 18px;border-radius:4px;font-weight:800}.danger{background:#d93636;color:white;padding:9px 12px;border-radius:4px}.adminrow{border:1px solid #e3e7ee;padding:10px;border-radius:5px;margin:8px 0;display:flex;gap:10px;align-items:center}.adminrow img{width:55px;height:55px;object-fit:contain}.adminrow .grow{flex:1}.hint{font-size:12px;color:var(--muted);line-height:1.5}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#172337;color:white;padding:12px 18px;border-radius:5px;display:none;z-index:50}
+@media(max-width:850px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.brand{min-width:150px}.topinner{gap:10px}}
+@media(max-width:620px){.topinner{flex-wrap:wrap;padding:10px}.brand{flex:1;font-size:18px}.search{order:3;flex-basis:100%}.topbtn{font-size:12px}.heroBox{padding:22px 18px}.heroTag{display:none}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{padding:10px}.photo{height:140px}.card h3{font-size:14px}.price{font-size:18px}.categories{justify-content:flex-start;overflow:auto;flex-wrap:nowrap}.cat{white-space:nowrap}.sectionhead h2{font-size:18px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topinner">
+<a class="brand" href="#">DHANORKAR<span style="color:#ffe500"> MOBILE</span><small>SHOP • BHOKAR</small></a>
+<div class="search"><input id="searchBox" placeholder="Search for mobiles, brands and more..." oninput="renderProducts()"><button aria-label="Search">⌕</button></div>
+<button class="topbtn" onclick="openAdmin()">Admin Login</button>
+<button class="cartbtn" onclick="openCart()">🛒 Cart <span id="cartCount">0</span></button>
+</div></header>
+<section class="hero"><div class="heroBox"><div><h1>Find Your Next Smartphone</h1><p>नवीन आणि जुने मोबाईल • योग्य किंमत • विश्वासार्ह सेवा</p><p style="margin-top:13px;font-weight:700">Dhanorkar Mobile Shop, Ambedkar Chowk, Bhokar</p></div><div class="heroTag">BEST DEALS</div></div></section>
+<nav class="categories">
+<button class="cat" onclick="setFilter('All')">All Mobiles</button><button class="cat" onclick="setFilter('New')">New Mobiles</button><button class="cat" onclick="setFilter('Used')">Used Mobiles</button><button class="cat" onclick="setBrandFilter('Apple')">Apple</button><button class="cat" onclick="setBrandFilter('Samsung')">Samsung</button><button class="cat" onclick="setBrandFilter('Vivo')">Vivo</button><button class="cat" onclick="setBrandFilter('Oppo')">OPPO</button><button class="cat" onclick="setBrandFilter('Redmi')">Redmi</button>
+</nav>
+<main class="wrap"><div class="sectionhead"><h2 id="listTitle">Mobiles for You</h2><span class="count" id="productCount">Loading products...</span></div><div class="grid" id="productGrid"><div class="empty">Firebase जोडत आहोत...</div></div></main>
+<footer><div class="footinner"><div><h3>Dhanorkar Mobile Shop</h3><p>नवीन आणि जुने मोबाईल खरेदी-विक्री</p><p>Ambedkar Chowk, Bhokar, Maharashtra</p></div><div><h3>Contact Us</h3><p>Phone: 9922338230</p><p>WhatsApp वर चौकशी आणि ऑर्डर</p></div></div></footer>
+
+<div class="overlay" id="adminOverlay"><div class="modal">
+<div class="modalhead"><h2>Admin Panel</h2><button class="close" onclick="closeModal('adminOverlay')">×</button></div>
+<div id="loginBox"><p class="hint">Admin ईमेल आणि पासवर्डने लॉगिन करा. Admin user Firebase Console मध्ये आधी तयार केलेला असावा.</p>
+<div class="field"><label>Email</label><input id="adminEmail" type="email" placeholder="admin@example.com"></div><div class="field"><label>Password</label><input id="adminPassword" type="password" placeholder="Password"></div><button class="primary" onclick="loginAdmin()">Login</button></div>
+<div id="adminBox" style="display:none">
+<div style="display:flex;justify-content:space-between;align-items:center"><b>Manage Products</b><button class="topbtn" style="background:#eee;color:#333" onclick="logoutAdmin()">Logout</button></div>
+<h3 id="formTitle">Add Mobile</h3>
+<input type="hidden" id="editId">
+<div class="field"><label>Brand</label><input id="pBrand" placeholder="Samsung / Apple / Vivo"></div>
+<div class="field"><label>Model Name</label><input id="pModel" placeholder="उदा. Samsung Galaxy S24"></div>
+<div class="field"><label>Price (₹)</label><input id="pPrice" type="number" min="0" placeholder="25000"></div>
+<div class="field"><label>Old Price (optional)</label><input id="pOldPrice" type="number" min="0" placeholder="28000"></div>
+<div class="field"><label>Condition</label><select id="pCondition"><option>New</option><option>Used</option></select></div>
+<div class="field"><label>RAM</label><input id="pRam" placeholder="8 GB"></div>
+<div class="field"><label>Storage</label><input id="pStorage" placeholder="128 GB"></div>
+<div class="field"><label>Colour / Condition details</label><input id="pDetails" placeholder="Excellent condition, box available..."></div>
+<div class="field"><label>Stock</label><select id="pStock"><option value="true">Available</option><option value="false">Sold / Out of stock</option></select></div>
+<div class="field"><label>Mobile Photos (multiple allowed)</label><input id="pImages" type="file" accept="image/*" multiple><p class="hint">JPG/PNG images निवडा. नवीन फोटो निवडल्यास जुने फोटो बदलले जातील.</p><div id="imagePreview" class="hint"></div></div>
+<button class="primary" onclick="saveProduct()">Save Product</button> <button class="topbtn" style="color:#333" onclick="resetForm()">Clear</button>
+<hr><h3>Products</h3><div id="adminProducts"></div>
+</div></div></div>
+<div class="overlay" id="cartOverlay"><div class="modal"><div class="modalhead"><h2>Your Cart</h2><button class="close" onclick="closeModal('cartOverlay')">×</button></div><div id="cartItems"></div><div class="field"><label>Your Name</label><input id="buyerName" placeholder="नाव"></div><div class="field"><label>Mobile Number</label><input id="buyerPhone" type="tel" placeholder="तुमचा मोबाईल नंबर"></div><div class="field"><label>Address / Area</label><textarea id="buyerAddress" rows="2" placeholder="तुमचा पत्ता"></textarea></div><button class="primary" style="background:#16a34a;width:100%" onclick="sendWhatsAppOrder()">Order on WhatsApp</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script>
+// STEP 1: Firebase Console > Project settings > Your apps > Web app मधील config येथे पेस्ट करा.
+const firebaseConfig = {
+  apiKey: "PASTE_API_KEY",
+  authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
+  projectId: "PASTE_PROJECT_ID",
+  storageBucket: "PASTE_PROJECT_ID.appspot.com",
+  messagingSenderId: "PASTE_SENDER_ID",
+  appId: "PASTE_APP_ID"
+};
+const SHOP_WHATSAPP = "919922338230";
+let db=null, auth=null, storage=null, products=[], cart=[], currentFilter="All", brandFilter="All", isConfigured=false;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2800)}
+function configured(){return firebaseConfig.apiKey!=="PASTE_API_KEY" && firebaseConfig.projectId!=="PASTE_PROJECT_ID"}
+if(configured()){
+ firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.firestore();storage=firebase.storage();isConfigured=true;
+ db.collection('products').orderBy('createdAt','desc').onSnapshot(s=>{products=s.docs.map(d=>({id:d.id,...d.data()}));renderProducts();renderAdminProducts();},e=>{console.error(e);toast('Products load झाले नाहीत. Firebase Rules तपासा.')});
+}else{products=[];document.getElementById('productGrid').innerHTML='<div class="empty">Website सुरू करण्यासाठी README मधील Firebase setup पूर्ण करा. त्यानंतर तुमचे मोबाईल येथे दिसतील.</div>';document.getElementById('productCount').textContent='Setup required'}
+function setFilter(f){currentFilter=f;brandFilter='All';document.getElementById('listTitle').textContent=f==='All'?'Mobiles for You':f+' Mobiles';renderProducts()}
+function setBrandFilter(b){brandFilter=b;currentFilter='All';document.getElementById('listTitle').textContent=b+' Mobiles';renderProducts()}
+function renderProducts(){
+ const q=(document.getElementById('searchBox')?.value||'').toLowerCase();
+ let list=products.filter(p=>(currentFilter==='All'||p.condition===currentFilter)&&(brandFilter==='All'||(p.brand||'').toLowerCase()===brandFilter.toLowerCase())&&(`${p.brand||''} ${p.model||''} ${p.ram||''} ${p.storage||''}`).toLowerCase().includes(q));
+ document.getElementById('productCount').textContent=list.length+' products';
+ const grid=document.getElementById('productGrid');
+ if(!list.length){grid.innerHTML='<div class="empty">सध्या या प्रकारचे मोबाईल उपलब्ध नाहीत. WhatsApp वर चौकशी करा.</div>';return}
+ grid.innerHTML=list.map(p=>`<article class="card"><div class="photo">${p.images&&p.images[0]?`<img src="${esc(p.images[0])}" alt="${esc(p.model)}">`:'<div class="placeholder">📱</div>'}</div><span class="condition ${p.condition==='Used'?'used':''}">${p.condition==='Used'?'USED / जुना':'NEW / नवीन'}</span><h3>${esc(p.brand||'')} ${esc(p.model||'')}</h3><p class="spec">${esc(p.ram||'')} RAM • ${esc(p.storage||'')} ${p.details?'• '+esc(p.details):''}</p><div class="price">₹${Number(p.price||0).toLocaleString('en-IN')}${p.oldPrice?` <span class="oldprice">₹${Number(p.oldPrice).toLocaleString('en-IN')}</span>`:''}</div><div class="stock ${p.inStock?'':'out'}">${p.inStock?'● Available':'● Sold / Out of stock'}</div><div class="actions"><button class="buy" ${p.inStock?'':'disabled'} onclick="addToCart('${p.id}')">ADD TO CART</button><button class="wa" onclick="quickWhatsApp('${p.id}')">WhatsApp</button></div></article>`).join('');
+}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function addToCart(id){const p=products.find(x=>x.id===id);if(!p||!p.inStock)return;cart.push(id);document.getElementById('cartCount').textContent=cart.length;toast('Cart मध्ये जोडले!')}
+function openCart(){document.getElementById('cartOverlay').classList.add('show');renderCart()}
+function renderCart(){const el=document.getElementById('cartItems');if(!cart.length){el.innerHTML='<p>तुमचा Cart रिकामा आहे.</p>';return}el.innerHTML=cart.map((id,i)=>{const p=products.find(x=>x.id===id);return p?`<div class="adminrow"><img src="${p.images?.[0]||''}"><div class="grow"><b>${esc(p.brand)} ${esc(p.model)}</b><br>₹${Number(p.price).toLocaleString('en-IN')}</div><button class="danger" onclick="cart.splice(${i},1);document.getElementById('cartCount').textContent=cart.length;renderCart()">Remove</button></div>`:''}).join('')}
+function orderText(items,name='',phone='',address=''){let lines=items.map(p=>`• ${p.brand} ${p.model} - ₹${p.price} (${p.condition})`).join('\n');let total=items.reduce((a,p)=>a+Number(p.price||0),0);return `नमस्कार Dhanorkar Mobile Shop,\nमला खालील मोबाईलसाठी ऑर्डर/चौकशी करायची आहे:\n${lines}\nएकूण किंमत: ₹${total}\nनाव: ${name}\nमोबाईल: ${phone}\nपत्ता: ${address}\nकृपया संपर्क करा.`}
+function sendWhatsAppOrder(){const items=cart.map(id=>products.find(p=>p.id===id)).filter(Boolean);if(!items.length){toast('Cart रिकामा आहे');return}const name=document.getElementById('buyerName').value.trim(),phone=document.getElementById('buyerPhone').value.trim(),address=document.getElementById('buyerAddress').value.trim();if(!name||!phone){toast('नाव आणि मोबाईल नंबर भरा');return}window.open('https://wa.me/'+SHOP_WHATSAPP+'?text='+encodeURIComponent(orderText(items,name,phone,address)),'_blank')}
+function quickWhatsApp(id){const p=products.find(x=>x.id===id);if(!p)return;window.open('https://wa.me/'+SHOP_WHATSAPP+'?text='+encodeURIComponent(orderText([p])),'_blank')}
+function openAdmin(){document.getElementById('adminOverlay').classList.add('show');if(!isConfigured)toast('आधी Firebase Config सेट करा');}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+async function loginAdmin(){if(!isConfigured){toast('Firebase Config आधी भरा');return}try{await auth.signInWithEmailAndPassword(document.getElementById('adminEmail').value.trim(),document.getElementById('adminPassword').value);toast('Login successful')}catch(e){toast(e.message)}}
+auth?.onAuthStateChanged(user=>{document.getElementById('loginBox').style.display=user?'none':'block';document.getElementById('adminBox').style.display=user?'block':'none';if(user)renderAdminProducts()});
+async function logoutAdmin(){await auth.signOut();resetForm()}
+function resetForm(){['editId','pBrand','pModel','pPrice','pOldPrice','pRam','pStorage','pDetails'].forEach(id=>document.getElementById(id).value='');document.getElementById('pCondition').value='New';document.getElementById('pStock').value='true';document.getElementById('pImages').value='';document.getElementById('imagePreview').textContent='';document.getElementById('formTitle').textContent='Add Mobile'}
+async function saveProduct(){
+ if(!auth?.currentUser){toast('Admin login करा');return}
+ const brand=document.getElementById('pBrand').value.trim(),model=document.getElementById('pModel').value.trim(),price=Number(document.getElementById('pPrice').value);
+ if(!brand||!model||!price){toast('Brand, Model आणि Price भरा');return}
+ const id=document.getElementById('editId').value;let images=[];
+ try{
+  const files=[...document.getElementById('pImages').files];
+  if(files.length){for(const f of files){if(!f.type.startsWith('image/'))continue;const ref=storage.ref('products/'+Date.now()+'_'+Math.random().toString(36).slice(2)+'_'+f.name);await ref.put(f);images.push(await ref.getDownloadURL())}}
+  const old=id?products.find(p=>p.id===id):null;if(!images.length&&old)images=old.images||[];
+  const data={brand,model,price,oldPrice:Number(document.getElementById('pOldPrice').value)||null,condition:document.getElementById('pCondition').value,ram:document.getElementById('pRam').value.trim(),storage:document.getElementById('pStorage').value.trim(),details:document.getElementById('pDetails').value.trim(),inStock:document.getElementById('pStock').value==='true',images,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+  if(id){await db.collection('products').doc(id).update(data)}else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();await db.collection('products').add(data)}
+  resetForm();toast('Mobile save झाला!')
+ }catch(e){console.error(e);toast('Save error: '+e.message)}
+}
+function renderAdminProducts(){const el=document.getElementById('adminProducts');if(!el)return;if(!auth?.currentUser){el.innerHTML='';return}el.innerHTML=products.map(p=>`<div class="adminrow"><img src="${p.images?.[0]||''}"><div class="grow"><b>${esc(p.brand)} ${esc(p.model)}</b><br>₹${Number(p.price).toLocaleString('en-IN')} • ${p.condition} • ${p.inStock?'Available':'Sold'}</div><button class="topbtn" style="color:#2874f0" onclick="editProduct('${p.id}')">Edit</button><button class="danger" onclick="deleteProduct('${p.id}')">Delete</button></div>`).join('')||'<p class="hint">अजून मोबाईल जोडलेले नाहीत.</p>'}
+function editProduct(id){const p=products.find(x=>x.id===id);if(!p)return;document.getElementById('editId').value=id;document.getElementById('pBrand').value=p.brand||'';document.getElementById('pModel').value=p.model||'';document.getElementById('pPrice').value=p.price||'';document.getElementById('pOldPrice').value=p.oldPrice||'';document.getElementById('pCondition').value=p.condition||'New';document.getElementById('pRam').value=p.ram||'';document.getElementById('pStorage').value=p.storage||'';document.getElementById('pDetails').value=p.details||'';document.getElementById('pStock').value=String(!!p.inStock);document.getElementById('formTitle').textContent='Edit Mobile';document.getElementById('imagePreview').textContent=(p.images||[]).length+' existing photo(s).';document.querySelector('#adminOverlay .modal').scrollTo({top:0,behavior:'smooth'})}
+async function deleteProduct(id){if(!confirm('हा मोबाईल delete करायचा?'))return;try{await db.collection('products').doc(id).delete();toast('Product delete झाला')}catch(e){toast(e.message)}}
+document.getElementById('pImages').addEventListener('change',e=>{document.getElementById('imagePreview').textContent=[...e.target.files].map(f=>f.name).join(', ')||''});
+</script>
+</body></html>
