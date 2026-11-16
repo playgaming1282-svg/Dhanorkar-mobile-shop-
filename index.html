@@ -112,15 +112,15 @@ auth?.onAuthStateChanged(user=>{document.getElementById('loginBox').style.displa
 async function logoutAdmin(){await auth.signOut();resetForm()}
 function resetForm(){['editId','pBrand','pModel','pPrice','pOldPrice','pRam','pStorage','pDetails'].forEach(id=>document.getElementById(id).value='');document.getElementById('pCondition').value='New';document.getElementById('pStock').value='true';document.getElementById('pImages').value='';document.getElementById('imagePreview').textContent='';document.getElementById('formTitle').textContent='Add Mobile'}
 
-// Image compression function (Direct Firestore save ke liye)
+// Image compression function
 function convertAndCompressImage(file, callback) {
     const reader = new FileReader();
     reader.onload = function (e) {
         const img = new Image();
         img.onload = function () {
             const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 500;
-            const MAX_HEIGHT = 500;
+            const MAX_WIDTH = 400;
+            const MAX_HEIGHT = 400;
             let width = img.width;
             let height = img.height;
             if (width > height) {
@@ -132,7 +132,7 @@ function convertAndCompressImage(file, callback) {
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.5);
             callback(compressedDataUrl);
         }
         img.src = e.target.result;
@@ -141,47 +141,66 @@ function convertAndCompressImage(file, callback) {
 }
 
 async function saveProduct(){
- if(!auth?.currentUser){toast('Admin login करा');return}
- const brand=document.getElementById('pBrand').value.trim(),model=document.getElementById('pModel').value.trim(),price=Number(document.getElementById('pPrice').value);
- if(!brand||!model||!price){toast('Brand, Model आणि Price भरा');return}
- const id=document.getElementById('editId').value;
- const fileInput=document.getElementById('pImages');
- const file=fileInput.files[0];
+    if(!auth?.currentUser){
+        alert("Pehle Admin Login karo!");
+        return;
+    }
+    
+    const brand = document.getElementById('pBrand').value.trim();
+    const model = document.getElementById('pModel').value.trim();
+    const price = Number(document.getElementById('pPrice').value);
+    
+    if(!brand || !model || !price){
+        alert("Kripya Brand, Model aur Price zaroor bharein!");
+        return;
+    }
 
- const old=id?products.find(p=>p.id===id):null;
- let existingImages=old?old.images||[]:[];
+    const id = document.getElementById('editId').value;
+    const fileInput = document.getElementById('pImages');
+    const file = fileInput ? fileInput.files[0] : null;
 
- const saveData = async (imagesList)=>{
-  try{
-   const data={
-    brand, model, price,
-    oldPrice:Number(document.getElementById('pOldPrice').value)||null,
-    condition:document.getElementById('pCondition').value,
-    ram:document.getElementById('pRam').value.trim(),
-    storage:document.getElementById('pStorage').value.trim(),
-    details:document.getElementById('pDetails').value.trim(),
-    inStock:document.getElementById('pStock').value==='true',
-    images:imagesList,
-    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
-   };
-   if(id){
-    await db.collection('products').doc(id).update(data);
-   }else{
-    data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
-    await db.collection('products').add(data);
-   }
-   resetForm();
-   toast('Mobile successfully save झाला!');
-  }catch(e){console.error(e);toast('Save error: '+e.message)}
- };
+    const old = id ? products.find(p => p.id === id) : null;
+    let existingImages = old ? old.images || [] : [];
 
- if(file){
-  convertAndCompressImage(file, (base64Img)=>{
-   saveData([base64Img]);
-  });
- }else{
-  saveData(existingImages);
- }
+    const saveData = async (imagesList)=>{
+        try {
+            const data = {
+                brand, 
+                model, 
+                price,
+                oldPrice: Number(document.getElementById('pOldPrice').value) || null,
+                condition: document.getElementById('pCondition').value,
+                ram: document.getElementById('pRam').value.trim(),
+                storage: document.getElementById('pStorage').value.trim(),
+                details: document.getElementById('pDetails').value.trim(),
+                inStock: document.getElementById('pStock').value === 'true',
+                images: imagesList,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            if(id){
+                await db.collection('products').doc(id).update(data);
+            } else {
+                data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                await db.collection('products').add(data);
+            }
+            
+            resetForm();
+            alert("Mobile successfully save ho gaya!");
+            document.getElementById('adminOverlay').classList.remove('show');
+        } catch(e) {
+            console.error("Firestore Save Error: ", e);
+            alert("Save error: " + e.message);
+        }
+    };
+
+    if(file){
+        convertAndCompressImage(file, (base64Img)=>{
+            saveData([base64Img]);
+        });
+    } else {
+        saveData(existingImages);
+    }
 }
 
 function renderAdminProducts(){const el=document.getElementById('adminProducts');if(!el)return;if(!auth?.currentUser){el.innerHTML='';return}el.innerHTML=products.map(p=>`<div class="adminrow"><img src="${p.images?.[0]||''}"><div class="grow"><b>${esc(p.brand)} ${esc(p.model)}</b><br>₹${Number(p.price).toLocaleString('en-IN')} • ${p.condition} • ${p.inStock?'Available':'Sold'}</div><button class="topbtn" style="color:#2874f0" onclick="editProduct('${p.id}')">Edit</button><button class="danger" onclick="deleteProduct('${p.id}')">Delete</button></div>`).join('')||'<p class="hint">अजून मोबाईल जोडलेले नाहीत.</p>'}
